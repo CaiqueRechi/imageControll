@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('skus', function (Blueprint $table) {
-            $table->id()->autoIncrement();
-            $table->string('name');
+        Schema::create('img_galeries', function (Blueprint $table) {
+            $table->id();
+            $table->string('sku')->nullable();
+            $table->string('img')->nullable();
             $table->timestamps();
             $table->string('create_by');
             $table->string('update_by')->nullable();
-            $table->string('img')->nullable();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sku');
+        //
     }
 };

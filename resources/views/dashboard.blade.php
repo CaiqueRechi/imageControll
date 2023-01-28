@@ -1,5 +1,9 @@
-@extends('layouts.app', ['pageSlug' => 'dashboard'])
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+@extends('layouts.app', ['pageSlug' => 'dashboard'])
 @section('content')
     <?php
     use Illuminate\Support\Facades\DB;
@@ -8,21 +12,54 @@
     if ($id >= 4) {
     ?>
 
+    <script>
+        $(document).ready(function() {
+            $('#pesquisa').keyup(function () {
+                var id = $(this).val();
+                if (id != '') {
+                    $.ajax({
+                        url: "pesquisa/" + id,
+                        method: "get",
+                        data: {id: id},
+                        success: function (data) {
+                            $('#display-1').fadeOut();
+                            $('#display-2').fadeIn();
+                            $('#display-2').html(data);
+                        }
+                    });
+                }   else {
+                    $('#display-2').fadeOut();
+                    $('#display-1').fadeIn();
+                }
+            });
+        });
+    </script>
+
+
     <section id="sku-all">
         <div class="container mt-5">
-            <div class="criar-sku">
-                <form action="/create-sku" method="POST">
-                    <input type="hidden" value="<?= $userName ?>" name="create_by">
-                    @csrf
-                    <label>Nome da SKU</label>
-                    <input type="text" name="name">
-                    <label>SKU</label>
-                    <input type="number" name="id">
-                    <button>Criar</button>
-                </form>
+            <div class="d-flex">
+                <div class="criar-sku col-8">
+                    <form action="/create-sku" method="POST">
+                        <input type="hidden" value="<?= $userName ?>" name="create_by">
+                        @csrf
+                        <label>Nome da SKU</label>
+                        <input type="text" name="name">
+                        <label>SKU</label>
+                        <input type="number" name="id">
+                        <button class="text-white btn btn-fill btn-primary">Criar</button>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <form>
+                        @csrf
+                        <input type="text" id="pesquisa" placeholder="Pesquise...">
+                    </form>
+                </div>
             </div>
 
-            <div class="display-sku">
+
+            <div id="display-1" class="display-sku">
                     <?php
                     $skus = DB::table('skus')->get();
                 foreach ($skus as $sku) {
@@ -41,6 +78,9 @@
                     </div>
                 </div>
                 <?php } ?>
+            </div>
+            <div id="display-2" class="display-sku">
+
             </div>
         </div>
     </section>

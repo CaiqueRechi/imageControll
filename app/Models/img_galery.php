@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sku extends Model
+class img_galery extends Model
 {
-    protected $fillable = ['id','name','created_at','updated_at','create_by','updated_by','img'];
+    protected $fillable = ['id','img'];
     use HasFactory;
 }

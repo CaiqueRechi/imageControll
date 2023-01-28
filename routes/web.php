@@ -26,7 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
-
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 		Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);
 		Route::get('maps', ['as' => 'pages.maps', 'uses' => 'App\Http\Controllers\PageController@maps']);
@@ -43,14 +43,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
 
-route::post('/create-sku', function (Request $request) {
-    $sku = new Sku();
-    $sku->name = request('name');
-    $sku->id = request('id');
-    $sku->create_by = request('create_by');
-    $sku->update_by = request('create_by');
-    $sku->save();
-    return redirect('/home');
-});
+Route::post('/create-sku', 'App\Http\Controllers\EditSkuController@create');
 
-route::get('edit/{id}','App\Http\Controllers\EditSkuController@edit');
+Route::get('edit/{id}','App\Http\Controllers\EditSkuController@edit');
+
+Route::put('update/{id}','App\Http\Controllers\EditSkuController@update')->name('update');
+
+Route::get('delete/{id}','App\Http\Controllers\EditSkuController@delete')->name('delete');
+
+Route::post('/image/{id}', 'App\Http\Controllers\ImageController@create');
+
+Route::get('deleteImage/{id}','App\Http\Controllers\ImageController@delete')->name('delete');
+
+Route::get('/pesquisa/{id}', 'App\Http\Controllers\PesquisaController@pesquisaSku')->name('pesquisa');
