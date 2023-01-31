@@ -77,7 +77,7 @@
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
                 <a href="{{ route('home') }}">
                     <i class="tim-icons icon-chart-pie-36"></i>
-                    <p>{{ __('Sku') }}</p>
+                    <p class="side-bar-p">{{ __('PAGINA INICIAL') }}</p>
                 </a>
             </li>
         </ul>

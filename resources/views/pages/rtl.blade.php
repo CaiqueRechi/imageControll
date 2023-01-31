@@ -1,5 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+<script>
+    $(document).ready(function() {
+        $('#pesquisa').keyup(function () {
+            var id = $(this).val();
+            if (id != '') {
+                $.ajax({
+                    url: "pesquisa/" + id,
+                    method: "get",
+                    data: {id: id},
+                    success: function (data) {
+                        $('#display-1').fadeOut();
+                        $('#display-2').fadeIn();
+                        $('#display-2').html(data);
+                    }
+                });
+            }   else {
+                $('#display-2').fadeOut();
+                $('#display-1').fadeIn();
+            }
+        });
+    });
+</script>
 
 <head>
     <meta charset="UTF-8">
@@ -181,7 +203,8 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
+              <input type="text" class="form-control" id="pesquisa" placeholder="SEARCHhhhhhhhhh">
+                <div id="display-2" class="display-sku">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <i class="tim-icons icon-simple-remove"></i>
               </button>

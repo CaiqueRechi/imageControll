@@ -13,7 +13,7 @@ class EditSkuController extends Controller
     public function create(Request $request){
         $sku = new Sku();
         $sku->name = request('name');
-        $sku->id = request('id');
+        $sku->sku = request('id');
         $sku->create_by = request('create_by');
         $sku->update_by = request('create_by');
 
@@ -38,7 +38,7 @@ class EditSkuController extends Controller
 
     public function update(Request $request, $id) {
         $sku = Sku::find($id);
-        $sku->id = $request->input('id');
+        $sku->sku = $request->input('id');
         $sku->name = $request->input('name');
         $sku->update_by = $request->input('user_name');
         if ($sku->id != $id) {

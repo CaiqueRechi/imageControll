@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('create_by');
             $table->string('update_by')->nullable();
             $table->string('img')->nullable();
+            $table->string('sku');
         });
     }
 

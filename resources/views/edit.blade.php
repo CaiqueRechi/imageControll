@@ -1,6 +1,7 @@
 @extends('layouts.app', ['pageSlug' => 'dashboard'])
 
 <?php $userName = auth()->user()->name;
+        $level = auth()->user()->level;
 ?>
 
 @section('content')
@@ -11,7 +12,7 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center">
                     <label class="mr-2"> SKU: </label>
-                    <input type="number" value="{{$sku->id}}" name="id">
+                    <input type="text" value="{{$sku->sku}}" name="id">
                     <label class="mr-2"> NOME: </label>
                     <input type="text" value="{{$sku->name}}" name="name">
                     <input type="hidden" value="{{$userName}}" name="user_name">
@@ -21,10 +22,13 @@
                 </div>
             </div>
         </form>
+        @if($level >= 6)
         <a href="{{url('delete/'.$sku->id)}}" class="text-white btn btn-fill btn-primary" style="height: fit-content;">Deletar</a>
+        @endif
     </div>
 
     <div id="sku-img">
+        @if($level >= 5)
         <form enctype="multipart/form-data" method="post" action="{{ url('image/'.$sku->id) }}">
             @csrf
             <input type="file" name="img[]" id="img" class="form-control" multiple>
@@ -32,24 +36,33 @@
             <input type="hidden" value="{{$userName}}" name="user_name">
             <button class="text-white btn btn-fill btn-primary">Enviar Imagem</button>
         </form>
-        <div class="img-container">
-            <?php
+        @endif
+        <div class="mt-5">
+            <div class="img-container row">
+                <?php
                 $imgs = DB::table('img_galeries')->where('sku', $sku->id)->get();
-            foreach ($imgs as $img) {
-                $src = $img->img;
-            ?>
+                foreach ($imgs as $img) {
+                    $src = $img->img;
+                    ?>
 
-            <div class="image-product d-flex flex-column">
-                <a class="btn-remove bi bi-trash-fill" href="{{url('deleteImage/'.$img->id)}}"></a>
-                <img src="{{url('img/skus/'.$src)}}">
-                <a class="text-white mt-3" href="{{url('img/skus/'.$src)}}">Link da Imagem</a>
-                <br>
-                <p>{{url('img/skus/'.$src)}}</p>
-            </div>
+                <div class="image-product">
+                    @if($level >=6)
+                        <a class="btn-remove bi bi-trash-fill" href="{{url('deleteImage/'.$img->id)}}"></a>
+                    @endif
+                    <img src="{{url('img/skus/'.$src)}}">
+                        <Br>
+                        <Br>
+                        <Br>
+                    <a class="text-white mt-3" href="{{url('img/skus/'.$src)}}">Link da Imagem</a>
+                        <br>
+                    <br>
+                    <p>{{url('img/skus/'.$src)}}</p>
+                </div>
 
-            <?php
+                    <?php
                 }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
 @endsection
